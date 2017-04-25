@@ -1,12 +1,11 @@
 // Harvester
-module.exports.loop = function () {
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
+var roleHarvester = {
+    run: function (creep) {
 
         if(creep.carry.energy < creep.carryCapacity) {
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            var source = creep.pos.findClosestByPath(FIND_SOURCES);
+            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
             }
         }
         else {
@@ -14,5 +13,7 @@ module.exports.loop = function () {
                 creep.moveTo(Game.spawns['Spawn1']);
             }
         }
+        creep.passiveRepair();
     }
-}
+};
+module.exports = roleHarvester;
